@@ -1,9 +1,15 @@
 package com.FiapTravel.controller;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,12 +31,38 @@ public class LocalidadeController {
 		
 	}
 	
-	
-	
-	
-	@GetMapping("/test")
-	public String retornaString() {
-		return "FUNCIONANDO";
+	@GetMapping("/listarLocalidades")
+	public ResponseEntity<?> findAll(){
+		List<Localidade> ListaDeLocalidades = service.buscarTodasLocalidades();
+		if(!ListaDeLocalidades.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(ListaDeLocalidades);
+		}else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não há Localidades");
+		}
+
 	}
+	
+	@GetMapping("/buscarLocalidadePorId")
+	public ResponseEntity<?> findById(@PathVariable UUID id){
+		Optional<Localidade> localidade = service.buscarPorId(id);
+		
+		if(localidade.isPresent()) {
+			return ResponseEntity.ok(localidade);
+		}else {
+			return ResponseEntity.badRequest().body("Localidade não encontrada");
+		}
+	}
+	
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteLocalidade(@PathVariable UUID id) {
+        try {
+            service.deletarLocalidade(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir localidade: " + e.getMessage());
+        }
+    }
+	
+	
 
 }
