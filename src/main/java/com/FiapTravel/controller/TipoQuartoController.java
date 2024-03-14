@@ -1,7 +1,7 @@
 package com.FiapTravel.controller;
 
 import com.FiapTravel.model.TipoQuarto;
-import com.FiapTravel.services.TipoQuartoService;
+import com.FiapTravel.service.TipoQuartoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.FiapTravel.controller;
 
 import com.FiapTravel.model.Opcional;
-import com.FiapTravel.services.OpcionalService;
+import com.FiapTravel.service.OpcionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

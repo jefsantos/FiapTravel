@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.FiapTravel.model.Localidade;
-import com.FiapTravel.services.LocalidadeService;
+import com.FiapTravel.service.LocalidadeService;
 
 @RestController
 @RequestMapping("/localidade")
@@ -38,7 +38,7 @@ public class LocalidadeController {
 
 	}
 	
-	@GetMapping("/buscarLocalidadePorId")
+	@GetMapping("/buscarLocalidadePorId/{id}")
 	public ResponseEntity<?> findById(@PathVariable UUID id){
 		Optional<Localidade> localidade = service.buscarPorId(id);
 		

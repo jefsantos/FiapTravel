@@ -1,7 +1,7 @@
 package com.FiapTravel.controller;
 
 import com.FiapTravel.model.Cliente;
-import com.FiapTravel.services.ClienteService;
+import com.FiapTravel.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,7 @@ public class ClienteController {
 
 	}
 	
-	@GetMapping("/buscarClientePorId")
+	@GetMapping("/buscarClientePorId/{id}")
 	public ResponseEntity<?> findById(@PathVariable UUID id){
 		Optional<Cliente> cliente = service.buscarPorId(id);
 		

@@ -1,7 +1,7 @@
 package com.FiapTravel.controller;
 
 import com.FiapTravel.model.Item;
-import com.FiapTravel.services.ItemService;
+import com.FiapTravel.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -2,7 +2,7 @@ package com.FiapTravel.controller;
 
 import com.FiapTravel.model.OpcionalLocalidade;
 import com.FiapTravel.model.OpcionalLocalidadeId;
-import com.FiapTravel.services.OpcionalLocalidadeService;
+import com.FiapTravel.service.OpcionalLocalidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

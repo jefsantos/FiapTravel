@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.FiapTravel.model.User;
-import com.FiapTravel.repositories.UserRepository;
+import com.FiapTravel.repository.UserRepository;
 import com.FiapTravel.user.request.UserAuthRequest;
 import com.FiapTravel.user.request.UserRequest;
 import com.FiapTravel.user.response.UserResponse;
