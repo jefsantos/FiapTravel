@@ -18,14 +18,14 @@ public class ItemQuarto implements Serializable {
     private ItemQuartoId id;
 
     @ManyToOne
-    @MapsId("idItem")
-    @JoinColumn(name = "id_item")
-    private Item item;
-
-    @ManyToOne
     @MapsId("idQuarto")
     @JoinColumn(name = "id_quarto")
     private Quarto quarto;
+
+    @ManyToOne
+    @MapsId("idItem")
+    @JoinColumn(name = "id_item")
+    private Item item;
 
     private int quantidade;
 }

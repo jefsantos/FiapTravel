@@ -6,9 +6,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Embeddable
-public class ItemQuartoId implements Serializable {
-
-    private UUID idQuarto;
-    private UUID idItem;
-
+public class OpcionalLocalidadeId implements Serializable {
+    private UUID idLocalidade;
+    private UUID idOpcional;
 }
