@@ -1,15 +1,16 @@
 package com.FiapTravel.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
 @NoArgsConstructor
-@Getter
 @AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Getter
+@Setter
 @Entity
 public class Predio {
     @Id

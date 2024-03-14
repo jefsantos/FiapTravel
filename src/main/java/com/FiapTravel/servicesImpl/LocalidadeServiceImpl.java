@@ -12,7 +12,7 @@ import com.FiapTravel.repositories.LocalidadeRepository;
 import com.FiapTravel.services.LocalidadeService;
 
 @Service
-public class LocalidadeServicesImpl implements LocalidadeService{
+public class LocalidadeServiceImpl implements LocalidadeService{
 
 	@Autowired
 	LocalidadeRepository repo;

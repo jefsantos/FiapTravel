@@ -13,8 +13,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-public class Item {
+public class TipoQuarto {
     @Id
-    private UUID idItem;
-    private String descricaoItem;
+    private UUID idTipoQuarto;
+    private String nomeTipoQuarto;
 }
