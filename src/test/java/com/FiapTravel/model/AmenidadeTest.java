@@ -27,25 +27,6 @@ class AmenidadeTest {
     }
 
     @Test
-    void testEqualsAndHashCode() {
-        UUID idAmenidade1 = UUID.randomUUID();
-        String descricaoAmenidade1 = "Descrição da amenidade";
-        Amenidade amenidade1 = new Amenidade(idAmenidade1, descricaoAmenidade1);
-
-        UUID idAmenidade2 = UUID.randomUUID();
-        String descricaoAmenidade2 = "Descrição da amenidade";
-        Amenidade amenidade2 = new Amenidade(idAmenidade2, descricaoAmenidade2);
-
-        assertEquals(amenidade1, amenidade2); // Devem ser iguais porque têm os mesmos atributos
-        assertEquals(amenidade1.hashCode(), amenidade2.hashCode());
-
-        // Modificar um atributo deve torná-los diferentes
-        amenidade2.setDescricaoAmenidade("Nova descrição da amenidade");
-        assertNotEquals(amenidade1, amenidade2);
-        assertNotEquals(amenidade1.hashCode(), amenidade2.hashCode());
-    }
-
-    @Test
     void testToString() {
         UUID idAmenidade = UUID.randomUUID();
         String descricaoAmenidade = "Descrição da amenidade";

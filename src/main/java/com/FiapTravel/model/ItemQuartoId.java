@@ -19,4 +19,8 @@ public class ItemQuartoId implements Serializable {
     private UUID idQuarto;
     private UUID idItem;
 
+    @Override
+    public String toString() {
+        return "ItemQuartoId(idQuarto=" + idQuarto + ", idItem=" + idItem + ")";
+    }
 }

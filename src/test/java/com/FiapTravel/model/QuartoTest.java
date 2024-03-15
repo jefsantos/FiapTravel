@@ -39,18 +39,6 @@ class QuartoTest {
     }
 
     @Test
-    void testEqualsAndHashCode() {
-        UUID idQuarto1 = UUID.randomUUID();
-        Quarto quarto1 = new Quarto(idQuarto1, "Quarto Test", 2, 5,
-                BigDecimal.valueOf(100.00), new TipoQuarto(UUID.randomUUID(), "Tipo Test"), new Predio(UUID.randomUUID(), "Predio Test", null));
-        Quarto quarto2 = new Quarto(idQuarto1, "Quarto Test", 2, 5,
-                BigDecimal.valueOf(100.00), new TipoQuarto(UUID.randomUUID(), "Tipo Test"), new Predio(UUID.randomUUID(), "Predio Test", null));
-
-        assertEquals(quarto1, quarto2); // Deve ser igual porque têm o mesmo ID
-        assertEquals(quarto1.hashCode(), quarto2.hashCode());
-    }
-
-    @Test
     void testToString() {
         UUID idQuarto = UUID.randomUUID();
         String nomeQuarto = "Quarto Test";

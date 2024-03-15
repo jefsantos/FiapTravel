@@ -30,29 +30,6 @@ class AmenidadeLocalidadeTest {
     }
 
     @Test
-    void testEqualsAndHashCode() {
-        UUID idLocalidade1 = UUID.randomUUID();
-        UUID idAmenidade1 = UUID.randomUUID();
-        AmenidadeLocalidadeId id1 = new AmenidadeLocalidadeId(idLocalidade1, idAmenidade1);
-        Localidade localidade1 = new Localidade(idLocalidade1, "Localidade 1", "Rua 1", "12345", "Cidade 1", "Bairro 1", "UF 1", null);
-        AmenidadeLocalidade amenidadeLocalidade1 = new AmenidadeLocalidade(id1, localidade1, null, 2);
-
-        UUID idLocalidade2 = UUID.randomUUID();
-        UUID idAmenidade2 = UUID.randomUUID();
-        AmenidadeLocalidadeId id2 = new AmenidadeLocalidadeId(idLocalidade2, idAmenidade2);
-        Localidade localidade2 = new Localidade(idLocalidade2, "Localidade 2", "Rua 2", "54321", "Cidade 2", "Bairro 2", "UF 2", null);
-        AmenidadeLocalidade amenidadeLocalidade2 = new AmenidadeLocalidade(id2, localidade2, null, 2);
-
-        assertEquals(amenidadeLocalidade1, amenidadeLocalidade2); // Devem ser iguais porque têm os mesmos IDs
-        assertEquals(amenidadeLocalidade1.hashCode(), amenidadeLocalidade2.hashCode());
-
-        // Modificar um atributo deve torná-los diferentes
-        amenidadeLocalidade2.setQuantidade(3);
-        assertNotEquals(amenidadeLocalidade1, amenidadeLocalidade2);
-        assertNotEquals(amenidadeLocalidade1.hashCode(), amenidadeLocalidade2.hashCode());
-    }
-
-    @Test
     void testToString() {
         UUID idLocalidade = UUID.randomUUID();
         UUID idAmenidade = UUID.randomUUID();

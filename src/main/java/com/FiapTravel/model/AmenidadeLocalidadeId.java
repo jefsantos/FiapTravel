@@ -17,4 +17,10 @@ import java.util.UUID;
 public class AmenidadeLocalidadeId implements Serializable {
     private UUID idLocalidade;
     private UUID idAmenidade;
+
+    @Override
+    public String toString() {
+        return "AmenidadeLocalidadeId(idLocalidade=" + idLocalidade +
+                ", idAmenidade=" + idAmenidade + ")";
+    }
 }

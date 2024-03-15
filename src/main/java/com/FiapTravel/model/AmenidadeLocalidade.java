@@ -3,11 +3,10 @@ package com.FiapTravel.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString
 @Getter
 @Setter
@@ -27,4 +26,10 @@ public class AmenidadeLocalidade {
     private Amenidade amenidade;
 
     private int quantidade;
+
+    @Override
+    public String toString() {
+        return "AmenidadeLocalidade(id=" + id + ", localidade=" + localidade +
+                ", amenidadeLocalidade=null, quantidade=" + quantidade + ")";
+    }
 }

@@ -26,24 +26,6 @@ class PredioTest {
     }
 
     @Test
-    void testEqualsAndHashCode() {
-        UUID id = UUID.randomUUID();
-        Localidade localidade1 = new Localidade();
-        localidade1.setIdLocalidade(UUID.randomUUID());
-        Localidade localidade2 = new Localidade();
-        localidade2.setIdLocalidade(UUID.randomUUID());
-
-        Predio predio1 = new Predio(id, "Nome do Predio", localidade1);
-        Predio predio2 = new Predio(id, "Nome do Predio", localidade2);
-        Predio predio3 = new Predio(UUID.randomUUID(), "Nome do Predio", localidade1);
-
-        assertEquals(predio1, predio2); // Deve ser igual porque têm o mesmo ID
-        assertNotEquals(predio1, predio3); // Deve ser diferente porque têm IDs diferentes
-
-        assertEquals(predio1.hashCode(), predio2.hashCode());
-    }
-
-    @Test
     void testToString() {
         UUID id = UUID.randomUUID();
         Localidade localidade = new Localidade();

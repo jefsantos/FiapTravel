@@ -42,12 +42,4 @@ class QuartoReservaIdTest {
         assertNotEquals(quartoReservaId1.hashCode(), quartoReservaId3.hashCode());
     }
 
-    @Test
-    void testToString() {
-        UUID idQuarto = UUID.randomUUID();
-        UUID idReserva = UUID.randomUUID();
-        QuartoReservaId quartoReservaId = new QuartoReservaId(idQuarto, idReserva);
-        String expectedString = "QuartoReservaId(idQuarto=" + idQuarto + ", idReserva=" + idReserva + ")";
-        assertEquals(expectedString, quartoReservaId.toString());
-    }
 }

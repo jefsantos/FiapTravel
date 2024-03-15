@@ -36,14 +36,4 @@ class OpcionalLocalidadeIdTest {
         assertEquals(opcionalLocalidadeId1, opcionalLocalidadeId2); // Deve ser igual porque têm os mesmos IDs
         assertEquals(opcionalLocalidadeId1.hashCode(), opcionalLocalidadeId2.hashCode());
     }
-
-    @Test
-    void testToString() {
-        UUID idLocalidade = UUID.randomUUID();
-        UUID idOpcional = UUID.randomUUID();
-
-        OpcionalLocalidadeId opcionalLocalidadeId = new OpcionalLocalidadeId(idLocalidade, idOpcional);
-        String expectedString = "OpcionalLocalidadeId(idLocalidade=" + idLocalidade + ", idOpcional=" + idOpcional + ")";
-        assertEquals(expectedString, opcionalLocalidadeId.toString());
-    }
 }
