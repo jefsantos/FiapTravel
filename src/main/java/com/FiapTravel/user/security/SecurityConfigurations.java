@@ -15,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
@@ -29,33 +28,31 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                		
 
-                //serviços de cliente
-                .requestMatchers(HttpMethod.POST, "/cliente/cadastroCliente").permitAll()
-        		.requestMatchers(HttpMethod.GET, "/cliente/listarClientes").permitAll()
-        		.requestMatchers(HttpMethod.GET, "/cliente/buscarClientePorId/*").permitAll()
-        		
-        		//serviços de cliente
-        		
+                        //serviços de cliente
+                        .requestMatchers(HttpMethod.POST, "/cliente/cadastroCliente").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cliente/listarClientes").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cliente/buscarClientePorId/*").permitAll()
+
+                        //serviços de cliente
+
 //                .requestMatchers(HttpMethod.POST, "/empreendimentos/").permitAll()
-        		.requestMatchers(HttpMethod.GET, "/empreendimentos/*").permitAll()
-        		.requestMatchers(HttpMethod.GET, "/empreendimentos/").permitAll()
-                
+                        .requestMatchers(HttpMethod.GET, "/empreendimentos/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/empreendimentos/").permitAll()
+
                         .requestMatchers(HttpMethod.POST, "/email").permitAll()
                         .requestMatchers(HttpMethod.POST, "/cadastroLocalidade").permitAll()
-                		.requestMatchers(HttpMethod.GET, "/listarItensCadastrados").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/listarItensCadastrados").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/cadastrarNovoItem").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").permitAll()
-                        
-                        
+
+
                         .requestMatchers(HttpMethod.POST, "/empreendimentos/").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/cadastro").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/cadastro").hasRole("USER")
-                        
-                        
+
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

@@ -24,7 +24,7 @@ public class AmenidadeLocalidade {
     @ManyToOne
     @MapsId("idAmenidade")
     @JoinColumn(name = "id_amenidade")
-    private AmenidadeLocalidade amenidadeLocalidade;
+    private Amenidade amenidade;
 
     private int quantidade;
 }
