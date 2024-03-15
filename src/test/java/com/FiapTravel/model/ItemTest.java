@@ -10,7 +10,6 @@ public class ItemTest {
     @Test
     public void testNoArgsConstructor() {
         // Arrange
-        // Nenhum argumento é necessário, pois estamos testando o construtor padrão
 
         // Act
         Item item = new Item();
