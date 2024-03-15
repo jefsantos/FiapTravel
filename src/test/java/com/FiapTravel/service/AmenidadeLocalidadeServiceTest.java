@@ -3,6 +3,7 @@ package com.FiapTravel.service;
 import com.FiapTravel.model.AmenidadeLocalidade;
 import com.FiapTravel.model.AmenidadeLocalidadeId;
 import com.FiapTravel.repository.AmenidadeLocalidadeRepository;
+import com.FiapTravel.serviceImpl.AmenidadeLocalidadeServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class AmenidadeLocalidadeServiceTest {
     private AmenidadeLocalidadeRepository amenidadeLocalidadeRepository;
 
     @InjectMocks
-    private AmenidadeLocalidadeService amenidadeLocalidadeService;
+    private AmenidadeLocalidadeServiceImpl amenidadeLocalidadeService; // Use a implementação concreta aqui
 
     @BeforeEach
     public void setup() {
