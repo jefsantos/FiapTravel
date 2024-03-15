@@ -29,6 +29,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                 		
                 		
+                        .requestMatchers(HttpMethod.POST, "/email").permitAll()
                         .requestMatchers(HttpMethod.POST, "/cadastroLocalidade").permitAll()
                 		.requestMatchers(HttpMethod.GET, "/listarItensCadastrados").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
