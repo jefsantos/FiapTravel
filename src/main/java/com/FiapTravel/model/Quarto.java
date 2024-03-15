@@ -21,7 +21,7 @@ public class Quarto {
     private UUID idQuarto;
     private String nomeQuarto;
     private int quantidadeLimitePessoas;
-    private int quatidadeNoPredio;
+    private int quantidadeNoPredio;
     private BigDecimal valorDiaria;
     @ManyToOne
     @JoinColumn(name = "id_tipo_quarto")

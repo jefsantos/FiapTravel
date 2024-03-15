@@ -3,10 +3,17 @@ package com.FiapTravel.model;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 
 @NoArgsConstructor
@@ -18,6 +25,7 @@ import lombok.*;
 @Entity
 public class Empreendimento {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID idEmpreendimento;
 	private String nomeEmpreendimento;
     @ManyToOne
