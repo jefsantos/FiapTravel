@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Serviço para operações relacionadas a prédios.
+ * Serviço para operações relacionadas a localidades.
  */
 public interface LocalidadeService {
 
@@ -39,7 +39,7 @@ public interface LocalidadeService {
 	/**
 	 * Atualiza as informações de uma localidade existente.
 	 *
-	 * @param id     O ID do prédio a ser atualizado.
+	 * @param id     O ID do localidade a ser atualizado.
 	 * @param localidade A localidade com as informações atualizadas.
 	 * @return A localidade atualizada.
 	 * @throws IllegalArgumentException Se o ID ou o localidade fornecida forem nulos.
