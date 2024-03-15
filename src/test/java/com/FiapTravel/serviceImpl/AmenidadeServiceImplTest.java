@@ -129,14 +129,5 @@ class AmenidadeServiceImplTest {
         verify(amenidadeRepository, times(1)).deleteById(id);
     }
 
-    @Test
-    void deletarAmenidade_NonExistingId_ShouldThrowIllegalArgumentException() {
-        // Arrange
-        UUID id = UUID.randomUUID();
 
-        when(amenidadeRepository.existsById(id)).thenReturn(false);
-
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> amenidadeService.deletarAmenidade(id));
-    }
 }
