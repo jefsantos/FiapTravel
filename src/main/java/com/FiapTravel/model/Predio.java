@@ -14,6 +14,7 @@ import java.util.UUID;
 @Entity
 public class Predio {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID idPredio;
     private String nomePredio;
     @ManyToOne

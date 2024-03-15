@@ -2,10 +2,7 @@ package com.FiapTravel.model;
 
 import java.util.UUID;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -19,6 +16,7 @@ import lombok.*;
 public class Localidade {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID idLocalidade;
 	private String nomeLocalidade;
 	private String logradouroLocalidade;
