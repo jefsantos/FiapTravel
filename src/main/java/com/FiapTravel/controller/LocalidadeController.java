@@ -1,64 +1,57 @@
 package com.FiapTravel.controller;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
+import com.FiapTravel.model.Localidade;
+import com.FiapTravel.service.LocalidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.FiapTravel.model.Localidade;
-import com.FiapTravel.service.LocalidadeService;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/localidade")
+@RequestMapping("/localidades")
 public class LocalidadeController {
-	
+	private final LocalidadeService localidadeService;
 	@Autowired
-	LocalidadeService service;
-	
-	@PostMapping("/cadastroLocalidade")
-	public ResponseEntity<?> cadastrarLocalidade(@RequestBody Localidade obj){
-		Localidade novoItem = service.save(obj);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(novoItem);
-		
+	public LocalidadeController(LocalidadeService localidadeService) {
+		this.localidadeService = localidadeService;
 	}
-	
-	@GetMapping("/listarLocalidades")
-	public ResponseEntity<?> findAll(){
-		List<Localidade> ListaDeLocalidades = service.buscarTodasLocalidades();
-		if(!ListaDeLocalidades.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(ListaDeLocalidades);
-		}else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não há Localidades");
-		}
 
+	@PostMapping
+	public ResponseEntity<Localidade> criarLocalidade(@RequestBody Localidade localidade) {
+		Localidade novaLocalidade = localidadeService.save(localidade);
+		return ResponseEntity.status(HttpStatus.CREATED).body(novaLocalidade);
 	}
-	
-	@GetMapping("/buscarLocalidadePorId/{id}")
-	public ResponseEntity<?> findById(@PathVariable UUID id){
-		Optional<Localidade> localidade = service.buscarPorId(id);
-		
-		if(localidade.isPresent()) {
-			return ResponseEntity.ok(localidade);
-		}else {
-			return ResponseEntity.badRequest().body("Localidade não encontrada");
+
+	@GetMapping
+	public ResponseEntity<List<Localidade>> buscarTodasLocalidades() {
+		List<Localidade> localidades = localidadeService.buscarTodasLocalidades();
+		return ResponseEntity.ok(localidades);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Localidade> buscarPorId(@PathVariable UUID id) {
+		Optional<Localidade> localidadeOptional = localidadeService.buscarPorId(id);
+		return localidadeOptional.map(localidade -> ResponseEntity.ok().body(localidade))
+				.orElseGet(() -> ResponseEntity.notFound().build());
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Localidade> atualizarLocalidade(@PathVariable UUID id, @RequestBody Localidade localidade) {
+		Localidade localidadeAtualizada = localidadeService.atualizarLocalidade(id, localidade);
+		if (localidadeAtualizada != null) {
+			return ResponseEntity.ok(localidadeAtualizada);
+		} else {
+			return ResponseEntity.notFound().build();
 		}
 	}
-	
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteLocalidade(@PathVariable UUID id) {
-        try {
-            service.deletarLocalidade(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir localidade: " + e.getMessage());
-        }
-    }
-	
-	
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deletarLocalidade(@PathVariable UUID id) {
+		localidadeService.deletarLocalidade(id);
+		return ResponseEntity.noContent().build();
+	}
 }
