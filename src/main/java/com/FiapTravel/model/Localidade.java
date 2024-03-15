@@ -24,6 +24,7 @@ public class Localidade {
 	private String logradouroLocalidade;
 	private String codigoPostalLocalidade;
 	private String cidadeLocalidade;
+	private String bairroLocalidade;
 	private String ufLocalidade;
 	@ManyToOne
 	@JoinColumn(name = "id_empreendimento")

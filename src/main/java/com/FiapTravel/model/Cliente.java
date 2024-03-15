@@ -3,24 +3,32 @@ package com.FiapTravel.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 import java.util.UUID;
 
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
+@Entity
 public class Cliente {
-	
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private UUID id;
-	private String nome;
 
+	@OneToOne
+	@MapsId
+	private User user;
 
-
-
+	private String paisOrigemCliente;
+	private String cpfCliente;
+	private String passaporteCliente;
+	private String nomeCliente;
+	private String dataNascimentoCliente;
+	private String logradouroEnderecoCliente;
+	private String codigoPostalEnderecoCliente;
+	private String cidadeEnderecoCliente;
+	private String bairroEnderecoCliente;
+	private String ufEnderecoCliente;
 }

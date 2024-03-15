@@ -12,52 +12,46 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("/clientes")
 public class ClienteController {
-
+	private final ClienteService clienteService;
 	@Autowired
-	ClienteService service;
-	
-	@PostMapping("/cadastroCliente")
-	public ResponseEntity<?> cadastrarCliente(@RequestBody Cliente obj){
-		Cliente novoItem = service.save(obj);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(novoItem);
-		
+	public ClienteController(ClienteService clienteService) {
+		this.clienteService = clienteService;
 	}
-	
-	@GetMapping("/listarClientes")
-	public ResponseEntity<?> findAll(){
-		List<Cliente> ListaDeClientes = service.buscarTodosClientes();
-		if(!ListaDeClientes.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(ListaDeClientes);
-		}else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não há Clientes");
-		}
 
+	@PostMapping
+	public ResponseEntity<Cliente> criarCliente(@RequestBody Cliente cliente) {
+		Cliente novoCliente = clienteService.save(cliente);
+		return ResponseEntity.status(HttpStatus.CREATED).body(novoCliente);
 	}
-	
-	@GetMapping("/buscarClientePorId/{id}")
-	public ResponseEntity<?> findById(@PathVariable UUID id){
-		Optional<Cliente> cliente = service.buscarPorId(id);
-		
-		if(cliente.isPresent()) {
-			return ResponseEntity.ok(cliente);
-		}else {
-			return ResponseEntity.badRequest().body("Cliente não encontrado");
+
+	@GetMapping
+	public ResponseEntity<List<Cliente>> buscarTodosClientes() {
+		List<Cliente> clientes = clienteService.buscarTodosClientes();
+		return ResponseEntity.ok(clientes);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Cliente> buscarPorId(@PathVariable UUID id) {
+		Optional<Cliente> clienteOptional = clienteService.buscarPorId(id);
+		return clienteOptional.map(cliente -> ResponseEntity.ok().body(cliente))
+				.orElseGet(() -> ResponseEntity.notFound().build());
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Cliente> atualizarCliente(@PathVariable UUID id, @RequestBody Cliente cliente) {
+		Cliente clienteAtualizado = clienteService.atualizarCliente(id, cliente);
+		if (clienteAtualizado != null) {
+			return ResponseEntity.ok(clienteAtualizado);
+		} else {
+			return ResponseEntity.notFound().build();
 		}
 	}
-	
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCliente(@PathVariable UUID id) {
-        try {
-            service.deletarCliente(id);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir Cliente: " + e.getMessage());
-        }
-    }
-	
-	
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deletarCliente(@PathVariable UUID id) {
+		clienteService.deletarCliente(id);
+		return ResponseEntity.noContent().build();
+	}
 }
