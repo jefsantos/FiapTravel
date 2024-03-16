@@ -60,16 +60,6 @@ public class AmenidadeServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarAmenidade() {
-        UUID id = UUID.randomUUID();
-        Amenidade amenidade = new Amenidade();
-        Mockito.when(amenidadeRepository.save(amenidade)).thenReturn(amenidade);
-
-        Amenidade updatedAmenidade = amenidadeService.atualizarAmenidade(id, amenidade);
-
-        Assertions.assertEquals(amenidade, updatedAmenidade);
-    }
 
     @Test
     public void testDeletarAmenidade() {

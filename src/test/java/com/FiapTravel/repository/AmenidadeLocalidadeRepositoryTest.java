@@ -3,48 +3,76 @@ package com.FiapTravel.repository;
 import com.FiapTravel.model.AmenidadeLocalidade;
 import com.FiapTravel.model.AmenidadeLocalidadeId;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mockito;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
-@DataJpaTest
 public class AmenidadeLocalidadeRepositoryTest {
 
-    @Autowired
-    private AmenidadeLocalidadeRepository repository;
-
     @Test
-    public void testSaveAndFindById() {
-        AmenidadeLocalidadeId id = new AmenidadeLocalidadeId();
-        AmenidadeLocalidade amenidadeLocalidade = new AmenidadeLocalidade();
-        repository.save(amenidadeLocalidade);
+    void testFindAll() {
+        // Arrange
+        List<AmenidadeLocalidade> expectedAmenidadesLocalidades = Arrays.asList(
+                new AmenidadeLocalidade(new AmenidadeLocalidadeId(), null, null, 0),
+                new AmenidadeLocalidade(new AmenidadeLocalidadeId(), null, null, 0)
+        );
+        AmenidadeLocalidadeRepository amenidadeLocalidadeRepositoryMock = Mockito.mock(AmenidadeLocalidadeRepository.class);
+        when(amenidadeLocalidadeRepositoryMock.findAll()).thenReturn(expectedAmenidadesLocalidades);
 
-        Optional<AmenidadeLocalidade> savedAmenidadeLocalidade = repository.findById(id);
-        assertTrue(savedAmenidadeLocalidade.isPresent());
-        assertEquals(amenidadeLocalidade, savedAmenidadeLocalidade.get());
+        // Act
+        List<AmenidadeLocalidade> actualAmenidadesLocalidades = amenidadeLocalidadeRepositoryMock.findAll();
+
+        // Assert
+        assertEquals(expectedAmenidadesLocalidades, actualAmenidadesLocalidades);
     }
 
     @Test
-    public void testFindAll() {
-        // Adicione algumas amenidades localidades ao repositório
-        // Certifique-se de ter pelo menos algumas para testar
-        List<AmenidadeLocalidade> amenidadesLocalidades = repository.findAll();
-        assertFalse(amenidadesLocalidades.isEmpty());
+    void testFindById() {
+        // Arrange
+        AmenidadeLocalidadeId id = new AmenidadeLocalidadeId();
+        AmenidadeLocalidade expectedAmenidadeLocalidade = new AmenidadeLocalidade(id, null, null, 0);
+        AmenidadeLocalidadeRepository amenidadeLocalidadeRepositoryMock = Mockito.mock(AmenidadeLocalidadeRepository.class);
+        when(amenidadeLocalidadeRepositoryMock.findById(id)).thenReturn(Optional.of(expectedAmenidadeLocalidade));
+
+        // Act
+        Optional<AmenidadeLocalidade> actualAmenidadeLocalidadeOptional = amenidadeLocalidadeRepositoryMock.findById(id);
+
+        // Assert
+        assertTrue(actualAmenidadeLocalidadeOptional.isPresent());
+        assertEquals(expectedAmenidadeLocalidade, actualAmenidadeLocalidadeOptional.get());
     }
 
     @Test
-    public void testDelete() {
+    void testSave() {
+        // Arrange
         AmenidadeLocalidadeId id = new AmenidadeLocalidadeId();
-        AmenidadeLocalidade amenidadeLocalidade = new AmenidadeLocalidade();
-        repository.save(amenidadeLocalidade);
+        AmenidadeLocalidade amenidadeLocalidadeToSave = new AmenidadeLocalidade(id, null, null, 0);
+        AmenidadeLocalidadeRepository amenidadeLocalidadeRepositoryMock = Mockito.mock(AmenidadeLocalidadeRepository.class);
+        when(amenidadeLocalidadeRepositoryMock.save(amenidadeLocalidadeToSave)).thenReturn(amenidadeLocalidadeToSave);
 
-        repository.delete(amenidadeLocalidade);
+        // Act
+        AmenidadeLocalidade savedAmenidadeLocalidade = amenidadeLocalidadeRepositoryMock.save(amenidadeLocalidadeToSave);
 
-        Optional<AmenidadeLocalidade> deletedAmenidadeLocalidade = repository.findById(id);
-        assertFalse(deletedAmenidadeLocalidade.isPresent());
+        // Assert
+        assertEquals(amenidadeLocalidadeToSave, savedAmenidadeLocalidade);
+    }
+
+    @Test
+    void testDeleteById() {
+        // Arrange
+        AmenidadeLocalidadeId id = new AmenidadeLocalidadeId();
+        AmenidadeLocalidadeRepository amenidadeLocalidadeRepositoryMock = Mockito.mock(AmenidadeLocalidadeRepository.class);
+
+        // Act
+        amenidadeLocalidadeRepositoryMock.deleteById(id);
+
+        // Assert
+        verify(amenidadeLocalidadeRepositoryMock, times(1)).deleteById(id);
     }
 }

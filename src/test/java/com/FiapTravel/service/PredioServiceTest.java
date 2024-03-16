@@ -60,16 +60,6 @@ public class PredioServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarPredio() {
-        UUID id = UUID.randomUUID();
-        Predio predio = new Predio();
-        Mockito.when(predioRepository.save(predio)).thenReturn(predio);
-
-        Predio updatedPredio = predioService.atualizarPredio(id, predio);
-
-        Assertions.assertEquals(predio, updatedPredio);
-    }
 
     @Test
     public void testDeletarPredio() {

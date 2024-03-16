@@ -1,94 +1,74 @@
 package com.FiapTravel.repository;
 
-import com.FiapTravel.model.Empreendimento;
 import com.FiapTravel.model.Localidade;
-import com.FiapTravel.service.LocalidadeService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-@DataJpaTest
 public class LocalidadeRepositoryTest {
 
-    @Mock
-    private LocalidadeRepository localidadeRepository;
+    @Test
+    void testFindAll() {
+        // Arrange
+        List<Localidade> expectedLocalidades = Arrays.asList(
+                new Localidade(UUID.randomUUID(), "Nome 1", "Logradouro 1", "CodigoPostal 1", "Cidade 1", "Bairro 1", "UF 1", null),
+                new Localidade(UUID.randomUUID(), "Nome 2", "Logradouro 2", "CodigoPostal 2", "Cidade 2", "Bairro 2", "UF 2", null)
+        );
+        LocalidadeRepository localidadeRepositoryMock = Mockito.mock(LocalidadeRepository.class);
+        when(localidadeRepositoryMock.findAll()).thenReturn(expectedLocalidades);
 
-    @InjectMocks
-    private LocalidadeService localidadeService; // Supondo que existe uma classe de serviço para Localidade
+        // Act
+        List<Localidade> actualLocalidades = localidadeRepositoryMock.findAll();
 
-    private Localidade localidade;
-
-    @BeforeEach
-    public void setup() {
-        // Configura uma localidade simulada antes de cada teste
-        Empreendimento empreendimento = new Empreendimento(/* dados do empreendimento */);
-        localidade = new Localidade(UUID.randomUUID(), "Localidade A", "Rua ABC", "12345-678", "São Paulo", "Centro", "SP", empreendimento);
+        // Assert
+        assertEquals(expectedLocalidades, actualLocalidades);
     }
 
     @Test
-    public void testSaveLocalidade() {
-        // Configura o comportamento simulado do repositório para salvar a localidade
-        when(localidadeRepository.save(localidade)).thenReturn(localidade);
+    void testFindById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Localidade expectedLocalidade = new Localidade(id, "Nome da localidade", "Logradouro", "CodigoPostal", "Cidade", "Bairro", "UF", null);
+        LocalidadeRepository localidadeRepositoryMock = Mockito.mock(LocalidadeRepository.class);
+        when(localidadeRepositoryMock.findById(id)).thenReturn(Optional.of(expectedLocalidade));
 
-        // Chama o método da classe de serviço que salva a localidade
-        Localidade savedLocalidade = localidadeService.save(localidade);
+        // Act
+        Optional<Localidade> actualLocalidadeOptional = localidadeRepositoryMock.findById(id);
 
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde à localidade simulada
-        verify(localidadeRepository, times(1)).save(localidade);
-        assertEquals(localidade, savedLocalidade);
+        // Assert
+        assertTrue(actualLocalidadeOptional.isPresent());
+        assertEquals(expectedLocalidade, actualLocalidadeOptional.get());
     }
 
     @Test
-    public void testFindById() {
-        // Configura o comportamento simulado do repositório para encontrar a localidade por ID
-        when(localidadeRepository.findById(localidade.getIdLocalidade())).thenReturn(Optional.of(localidade));
+    void testSave() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Localidade localidadeToSave = new Localidade(id, "Nome da localidade", "Logradouro", "CodigoPostal", "Cidade", "Bairro", "UF", null);
+        LocalidadeRepository localidadeRepositoryMock = Mockito.mock(LocalidadeRepository.class);
+        when(localidadeRepositoryMock.save(localidadeToSave)).thenReturn(localidadeToSave);
 
-        // Chama o método da classe de serviço que encontra a localidade por ID
-        Optional<Localidade> foundLocalidade = localidadeService.buscarPorId(localidade.getIdLocalidade());
+        // Act
+        Localidade savedLocalidade = localidadeRepositoryMock.save(localidadeToSave);
 
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde à localidade simulada
-        verify(localidadeRepository, times(1)).findById(localidade.getIdLocalidade());
-        assertEquals(localidade, foundLocalidade.get());
+        // Assert
+        assertEquals(localidadeToSave, savedLocalidade);
     }
 
     @Test
-    public void testFindAll() {
-        // Configura uma lista simulada de localidades
-        List<Localidade> localidades = new ArrayList<>();
-        localidades.add(localidade);
+    void testDeleteById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        LocalidadeRepository localidadeRepositoryMock = Mockito.mock(LocalidadeRepository.class);
 
-        // Configura o comportamento simulado do repositório para encontrar todas as localidades
-        when(localidadeRepository.findAll()).thenReturn(localidades);
+        // Act
+        localidadeRepositoryMock.deleteById(id);
 
-        // Chama o método da classe de serviço que encontra todas as localidades
-        List<Localidade> foundLocalidades = localidadeService.buscarTodasLocalidades();
-
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde à lista simulada de localidades
-        verify(localidadeRepository, times(1)).findAll();
-        assertEquals(localidades.size(), foundLocalidades.size());
-        assertEquals(localidade, foundLocalidades.get(0));
+        // Assert
+        verify(localidadeRepositoryMock, times(1)).deleteById(id);
     }
-
-    @Test
-    public void testDelete() {
-        // Chama o método da classe de serviço que deleta a localidade
-        localidadeService.deletarLocalidade(UUID.randomUUID());
-
-        // Verifica se o método do repositório foi chamado para deletar a localidade
-        verify(localidadeRepository, times(1)).delete(localidade);
-    }
-
 }

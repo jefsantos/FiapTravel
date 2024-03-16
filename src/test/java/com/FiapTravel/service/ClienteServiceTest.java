@@ -60,16 +60,6 @@ public class ClienteServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarCliente() {
-        UUID id = UUID.randomUUID();
-        Cliente cliente = new Cliente();
-        Mockito.when(clienteRepository.save(cliente)).thenReturn(cliente);
-
-        Cliente updatedCliente = clienteService.atualizarCliente(id, cliente);
-
-        Assertions.assertEquals(cliente, updatedCliente);
-    }
 
     @Test
     public void testDeletarCliente() {

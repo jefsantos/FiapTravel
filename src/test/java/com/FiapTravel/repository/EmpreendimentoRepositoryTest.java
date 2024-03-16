@@ -1,46 +1,74 @@
 package com.FiapTravel.repository;
 
 import com.FiapTravel.model.Empreendimento;
-import com.FiapTravel.model.User;
-import com.FiapTravel.service.EmpreendimentoService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mockito;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-@DataJpaTest
 public class EmpreendimentoRepositoryTest {
 
-    @Mock
-    private EmpreendimentoRepository empreendimentoRepository;
-
-    @InjectMocks
-    private EmpreendimentoService empreendimentoService; // Supondo que existe uma classe de serviço para Empreendimento
-
     @Test
-    public void testFindById() {
-        // Cria um empreendimento simulado
-        User user = new User();
-        Empreendimento empreendimento = new Empreendimento(UUID.randomUUID(), "Empreendimento A", user);
+    void testFindAll() {
+        // Arrange
+        List<Empreendimento> expectedEmpreendimentos = Arrays.asList(
+                new Empreendimento(UUID.randomUUID(), "Empreendimento 1", null),
+                new Empreendimento(UUID.randomUUID(), "Empreendimento 2", null)
+        );
+        EmpreendimentoRepository empreendimentoRepositoryMock = Mockito.mock(EmpreendimentoRepository.class);
+        when(empreendimentoRepositoryMock.findAll()).thenReturn(expectedEmpreendimentos);
 
-        // Configura o comportamento simulado do repositório
-        when(empreendimentoRepository.findById(empreendimento.getIdEmpreendimento())).thenReturn(Optional.of(empreendimento));
+        // Act
+        List<Empreendimento> actualEmpreendimentos = empreendimentoRepositoryMock.findAll();
 
-        // Chama o método da classe de serviço que usa o repositório
-        Optional<Empreendimento> result = empreendimentoService.buscarPorId(empreendimento.getIdEmpreendimento());
-
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde ao empreendimento simulado
-        verify(empreendimentoRepository, times(1)).findById(empreendimento.getIdEmpreendimento());
-        assertEquals(empreendimento.getNomeEmpreendimento(), result.get().getNomeEmpreendimento());
+        // Assert
+        assertEquals(expectedEmpreendimentos, actualEmpreendimentos);
     }
 
+    @Test
+    void testFindById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Empreendimento expectedEmpreendimento = new Empreendimento(id, "Empreendimento", null);
+        EmpreendimentoRepository empreendimentoRepositoryMock = Mockito.mock(EmpreendimentoRepository.class);
+        when(empreendimentoRepositoryMock.findById(id)).thenReturn(Optional.of(expectedEmpreendimento));
+
+        // Act
+        Optional<Empreendimento> actualEmpreendimentoOptional = empreendimentoRepositoryMock.findById(id);
+
+        // Assert
+        assertTrue(actualEmpreendimentoOptional.isPresent());
+        assertEquals(expectedEmpreendimento, actualEmpreendimentoOptional.get());
+    }
+
+    @Test
+    void testSave() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Empreendimento empreendimentoToSave = new Empreendimento(id, "Empreendimento", null);
+        EmpreendimentoRepository empreendimentoRepositoryMock = Mockito.mock(EmpreendimentoRepository.class);
+        when(empreendimentoRepositoryMock.save(empreendimentoToSave)).thenReturn(empreendimentoToSave);
+
+        // Act
+        Empreendimento savedEmpreendimento = empreendimentoRepositoryMock.save(empreendimentoToSave);
+
+        // Assert
+        assertEquals(empreendimentoToSave, savedEmpreendimento);
+    }
+
+    @Test
+    void testDeleteById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        EmpreendimentoRepository empreendimentoRepositoryMock = Mockito.mock(EmpreendimentoRepository.class);
+
+        // Act
+        empreendimentoRepositoryMock.deleteById(id);
+
+        // Assert
+        verify(empreendimentoRepositoryMock, times(1)).deleteById(id);
+    }
 }

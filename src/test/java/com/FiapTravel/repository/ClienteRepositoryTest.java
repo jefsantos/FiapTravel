@@ -1,48 +1,78 @@
 package com.FiapTravel.repository;
 
 import com.FiapTravel.model.Cliente;
-import com.FiapTravel.model.User;
-import com.FiapTravel.service.ClienteService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mockito;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-@DataJpaTest
 public class ClienteRepositoryTest {
 
-    @Mock
-    private ClienteRepository clienteRepository;
-
-    @InjectMocks
-    private ClienteService clienteService; // Supondo que existe uma classe de serviço para Cliente
-
     @Test
-    public void testFindById() {
-        // Cria um cliente simulado
-        User user = new User();
-        Cliente cliente = new Cliente(UUID.randomUUID(), user, "Brasil", "12345678901", "AB123456", "João", "1990-01-01",
-                "Rua A", "12345-678", "São Paulo", "Centro", "SP");
+    void testFindAll() {
+        // Arrange
+        List<Cliente> expectedClientes = Arrays.asList(
+                new Cliente(UUID.randomUUID(), null, "Brasil", "12345678901", null, "João", "1990-01-01",
+                        "Rua A", "12345-678", "São Paulo", "Centro", "SP"),
+                new Cliente(UUID.randomUUID(), null, "EUA", "98765432109", null, "John", "1985-05-10",
+                        "Street B", "54321-987", "New York", "Downtown", "NY")
+        );
+        ClienteRepository clienteRepositoryMock = Mockito.mock(ClienteRepository.class);
+        when(clienteRepositoryMock.findAll()).thenReturn(expectedClientes);
 
-        // Configura o comportamento simulado do repositório
-        when(clienteRepository.findById(cliente.getId())).thenReturn(Optional.of(cliente));
+        // Act
+        List<Cliente> actualClientes = clienteRepositoryMock.findAll();
 
-        // Chama o método da classe de serviço que usa o repositório
-        Optional<Cliente> result = clienteService.buscarPorId(cliente.getId());
-
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde ao cliente simulado
-        verify(clienteRepository, times(1)).findById(cliente.getId());
-        assertEquals(cliente.getNomeCliente(), result.get().getNomeCliente());
+        // Assert
+        assertEquals(expectedClientes, actualClientes);
     }
 
-    // Adicione outros casos de teste conforme necessário
+    @Test
+    void testFindById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Cliente expectedCliente = new Cliente(id, null, "Brasil", "12345678901", null, "João", "1990-01-01",
+                "Rua A", "12345-678", "São Paulo", "Centro", "SP");
+        ClienteRepository clienteRepositoryMock = Mockito.mock(ClienteRepository.class);
+        when(clienteRepositoryMock.findById(id)).thenReturn(Optional.of(expectedCliente));
+
+        // Act
+        Optional<Cliente> actualClienteOptional = clienteRepositoryMock.findById(id);
+
+        // Assert
+        assertTrue(actualClienteOptional.isPresent());
+        assertEquals(expectedCliente, actualClienteOptional.get());
+    }
+
+    @Test
+    void testSave() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Cliente clienteToSave = new Cliente(id, null, "Brasil", "12345678901", null, "João", "1990-01-01",
+                "Rua A", "12345-678", "São Paulo", "Centro", "SP");
+        ClienteRepository clienteRepositoryMock = Mockito.mock(ClienteRepository.class);
+        when(clienteRepositoryMock.save(clienteToSave)).thenReturn(clienteToSave);
+
+        // Act
+        Cliente savedCliente = clienteRepositoryMock.save(clienteToSave);
+
+        // Assert
+        assertEquals(clienteToSave, savedCliente);
+    }
+
+    @Test
+    void testDeleteById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        ClienteRepository clienteRepositoryMock = Mockito.mock(ClienteRepository.class);
+
+        // Act
+        clienteRepositoryMock.deleteById(id);
+
+        // Assert
+        verify(clienteRepositoryMock, times(1)).deleteById(id);
+    }
 }

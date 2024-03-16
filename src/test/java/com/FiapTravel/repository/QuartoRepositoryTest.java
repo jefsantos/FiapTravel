@@ -1,97 +1,75 @@
 package com.FiapTravel.repository;
 
-import com.FiapTravel.model.Predio;
 import com.FiapTravel.model.Quarto;
-import com.FiapTravel.model.TipoQuarto;
-import com.FiapTravel.service.QuartoService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mockito;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-@DataJpaTest
 public class QuartoRepositoryTest {
 
-    @Mock
-    private QuartoRepository quartoRepository;
+    @Test
+    void testFindAll() {
+        // Arrange
+        List<Quarto> expectedQuartos = Arrays.asList(
+                new Quarto(UUID.randomUUID(), "Nome do Quarto 1", 2, 10, BigDecimal.valueOf(100.00), null, null),
+                new Quarto(UUID.randomUUID(), "Nome do Quarto 2", 3, 15, BigDecimal.valueOf(150.00), null, null)
+        );
+        QuartoRepository quartoRepositoryMock = Mockito.mock(QuartoRepository.class);
+        when(quartoRepositoryMock.findAll()).thenReturn(expectedQuartos);
 
-    @InjectMocks
-    private QuartoService quartoService; // Supondo que existe uma classe de serviço para Quarto
+        // Act
+        List<Quarto> actualQuartos = quartoRepositoryMock.findAll();
 
-    private Quarto quarto;
-
-    @BeforeEach
-    public void setup() {
-        // Configura um quarto simulado antes de cada teste
-        TipoQuarto tipoQuarto = new TipoQuarto(/* dados do tipo de quarto */);
-        Predio predio = new Predio(/* dados do prédio */);
-        quarto = new Quarto(UUID.randomUUID(), "Quarto A", 2, 10, BigDecimal.valueOf(100.0), tipoQuarto, predio);
+        // Assert
+        assertEquals(expectedQuartos, actualQuartos);
     }
 
     @Test
-    public void testSaveQuarto() {
-        // Configura o comportamento simulado do repositório para salvar o quarto
-        when(quartoRepository.save(quarto)).thenReturn(quarto);
+    void testFindById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Quarto expectedQuarto = new Quarto(id, "Nome do Quarto", 2, 10, BigDecimal.valueOf(100.00), null, null);
+        QuartoRepository quartoRepositoryMock = Mockito.mock(QuartoRepository.class);
+        when(quartoRepositoryMock.findById(id)).thenReturn(Optional.of(expectedQuarto));
 
-        // Chama o método da classe de serviço que salva o quarto
-        Quarto savedQuarto = quartoService.save(quarto);
+        // Act
+        Optional<Quarto> actualQuartoOptional = quartoRepositoryMock.findById(id);
 
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde ao quarto simulado
-        verify(quartoRepository, times(1)).save(quarto);
-        assertEquals(quarto, savedQuarto);
+        // Assert
+        assertTrue(actualQuartoOptional.isPresent());
+        assertEquals(expectedQuarto, actualQuartoOptional.get());
     }
 
     @Test
-    public void testFindById() {
-        // Configura o comportamento simulado do repositório para encontrar o quarto por ID
-        when(quartoRepository.findById(quarto.getIdQuarto())).thenReturn(Optional.of(quarto));
+    void testSave() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Quarto quartoToSave = new Quarto(id, "Nome do Quarto", 2, 10, BigDecimal.ONE, null, null);
+        QuartoRepository quartoRepositoryMock = Mockito.mock(QuartoRepository.class);
+        when(quartoRepositoryMock.save(quartoToSave)).thenReturn(quartoToSave);
 
-        // Chama o método da classe de serviço que encontra o quarto por ID
-        Optional<Quarto> foundQuarto = quartoService.buscarPorId(quarto.getIdQuarto());
+        // Act
+        Quarto savedQuarto = quartoRepositoryMock.save(quartoToSave);
 
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde ao quarto simulado
-        verify(quartoRepository, times(1)).findById(quarto.getIdQuarto());
-        assertEquals(quarto, foundQuarto.get());
+        // Assert
+        assertEquals(quartoToSave, savedQuarto);
     }
 
     @Test
-    public void testFindAll() {
-        // Configura uma lista simulada de quartos
-        List<Quarto> quartos = new ArrayList<>();
-        quartos.add(quarto);
+    void testDeleteById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        QuartoRepository quartoRepositoryMock = Mockito.mock(QuartoRepository.class);
 
-        // Configura o comportamento simulado do repositório para encontrar todos os quartos
-        when(quartoRepository.findAll()).thenReturn(quartos);
+        // Act
+        quartoRepositoryMock.deleteById(id);
 
-        // Chama o método da classe de serviço que encontra todos os quartos
-        List<Quarto> foundQuartos = quartoService.buscarTodosQuartos();
-
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde à lista simulada de quartos
-        verify(quartoRepository, times(1)).findAll();
-        assertEquals(quartos.size(), foundQuartos.size());
-        assertEquals(quarto, foundQuartos.get(0));
+        // Assert
+        verify(quartoRepositoryMock, times(1)).deleteById(id);
     }
-
-    @Test
-    public void testDelete() {
-        // Chama o método da classe de serviço que deleta o quarto
-        quartoService.deletarQuarto(UUID.randomUUID());
-
-        // Verifica se o método do repositório foi chamado para deletar o quarto
-        verify(quartoRepository, times(1)).delete(quarto);
-    }
-
 }

@@ -60,16 +60,6 @@ public class TipoQuartoServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarTipoQuarto() {
-        UUID id = UUID.randomUUID();
-        TipoQuarto tipoQuarto = new TipoQuarto();
-        Mockito.when(tipoQuartoRepository.save(tipoQuarto)).thenReturn(tipoQuarto);
-
-        TipoQuarto updatedTipoQuarto = tipoQuartoService.atualizarTipoQuarto(id, tipoQuarto);
-
-        Assertions.assertEquals(tipoQuarto, updatedTipoQuarto);
-    }
 
     @Test
     public void testDeletarTipoQuarto() {

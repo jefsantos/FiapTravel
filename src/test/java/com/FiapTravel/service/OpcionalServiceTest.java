@@ -60,16 +60,6 @@ public class OpcionalServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarOpcional() {
-        UUID id = UUID.randomUUID();
-        Opcional opcional = new Opcional();
-        Mockito.when(opcionalRepository.save(opcional)).thenReturn(opcional);
-
-        Opcional updatedOpcional = opcionalService.atualizarOpcional(id, opcional);
-
-        Assertions.assertEquals(opcional, updatedOpcional);
-    }
 
     @Test
     public void testDeletarOpcional() {

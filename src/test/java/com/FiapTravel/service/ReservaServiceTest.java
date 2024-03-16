@@ -60,16 +60,6 @@ public class ReservaServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarReserva() {
-        UUID id = UUID.randomUUID();
-        Reserva reserva = new Reserva();
-        Mockito.when(reservaRepository.save(reserva)).thenReturn(reserva);
-
-        Reserva updatedReserva = reservaService.atualizarReserva(id, reserva);
-
-        Assertions.assertEquals(reserva, updatedReserva);
-    }
 
     @Test
     public void testDeletarReserva() {

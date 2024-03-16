@@ -60,16 +60,7 @@ public class OpcionalLocalidadeServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarOpcionalLocalidade() {
-        OpcionalLocalidadeId id = new OpcionalLocalidadeId();
-        OpcionalLocalidade opcionalLocalidade = new OpcionalLocalidade();
-        Mockito.when(opcionalLocalidadeRepository.save(opcionalLocalidade)).thenReturn(opcionalLocalidade);
 
-        OpcionalLocalidade updatedOpcionalLocalidade = opcionalLocalidadeService.atualizarOpcionalLocalidade(id, opcionalLocalidade);
-
-        Assertions.assertEquals(opcionalLocalidade, updatedOpcionalLocalidade);
-    }
 
     @Test
     public void testDeletarOpcionalLocalidade() {

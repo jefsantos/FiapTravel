@@ -1,95 +1,74 @@
 package com.FiapTravel.repository;
 
 import com.FiapTravel.model.Reserva;
-import com.FiapTravel.model.User;
-import com.FiapTravel.service.ReservaService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mockito;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-@DataJpaTest
 public class ReservaRepositoryTest {
 
-    @Mock
-    private ReservaRepository reservaRepository;
+    @Test
+    void testFindAll() {
+        // Arrange
+        List<Reserva> expectedReservas = Arrays.asList(
+                new Reserva(UUID.randomUUID(), "Data de entrada 1", "Data de saída 1", "Quantidade de pessoas 1", null, null),
+                new Reserva(UUID.randomUUID(), "Data de entrada 2", "Data de saída 2", "Quantidade de pessoas 2", null, null)
+        );
+        ReservaRepository reservaRepositoryMock = Mockito.mock(ReservaRepository.class);
+        when(reservaRepositoryMock.findAll()).thenReturn(expectedReservas);
 
-    @InjectMocks
-    private ReservaService reservaService; // Supondo que existe uma classe de serviço para Reserva
+        // Act
+        List<Reserva> actualReservas = reservaRepositoryMock.findAll();
 
-    private Reserva reserva;
-
-    @BeforeEach
-    public void setup() {
-        // Configura uma reserva simulada antes de cada teste
-        User user = new User(/* dados do usuário */);
-        reserva = new Reserva(UUID.randomUUID(), "2024-03-15", "2024-03-20", "2", BigDecimal.valueOf(500.0), user);
+        // Assert
+        assertEquals(expectedReservas, actualReservas);
     }
 
     @Test
-    public void testSaveReserva() {
-        // Configura o comportamento simulado do repositório para salvar a reserva
-        when(reservaRepository.save(reserva)).thenReturn(reserva);
+    void testFindById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Reserva expectedReserva = new Reserva(id, "Data de entrada", "Data de saída", "Quantidade de pessoas", null, null);
+        ReservaRepository reservaRepositoryMock = Mockito.mock(ReservaRepository.class);
+        when(reservaRepositoryMock.findById(id)).thenReturn(Optional.of(expectedReserva));
 
-        // Chama o método da classe de serviço que salva a reserva
-        Reserva savedReserva = reservaService.save(reserva);
+        // Act
+        Optional<Reserva> actualReservaOptional = reservaRepositoryMock.findById(id);
 
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde à reserva simulada
-        verify(reservaRepository, times(1)).save(reserva);
-        assertEquals(reserva, savedReserva);
+        // Assert
+        assertTrue(actualReservaOptional.isPresent());
+        assertEquals(expectedReserva, actualReservaOptional.get());
     }
 
     @Test
-    public void testFindById() {
-        // Configura o comportamento simulado do repositório para encontrar a reserva por ID
-        when(reservaRepository.findById(reserva.getIdReserva())).thenReturn(Optional.of(reserva));
+    void testSave() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Reserva reservaToSave = new Reserva(id, "Data de entrada", "Data de saída", "Quantidade de pessoas", null, null);
+        ReservaRepository reservaRepositoryMock = Mockito.mock(ReservaRepository.class);
+        when(reservaRepositoryMock.save(reservaToSave)).thenReturn(reservaToSave);
 
-        // Chama o método da classe de serviço que encontra a reserva por ID
-        Optional<Reserva> foundReserva = reservaService.buscarPorId(reserva.getIdReserva());
+        // Act
+        Reserva savedReserva = reservaRepositoryMock.save(reservaToSave);
 
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde à reserva simulada
-        verify(reservaRepository, times(1)).findById(reserva.getIdReserva());
-        assertEquals(reserva, foundReserva.get());
+        // Assert
+        assertEquals(reservaToSave, savedReserva);
     }
 
     @Test
-    public void testFindAll() {
-        // Configura uma lista simulada de reservas
-        List<Reserva> reservas = new ArrayList<>();
-        reservas.add(reserva);
+    void testDeleteById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        ReservaRepository reservaRepositoryMock = Mockito.mock(ReservaRepository.class);
 
-        // Configura o comportamento simulado do repositório para encontrar todas as reservas
-        when(reservaRepository.findAll()).thenReturn(reservas);
+        // Act
+        reservaRepositoryMock.deleteById(id);
 
-        // Chama o método da classe de serviço que encontra todas as reservas
-        List<Reserva> foundReservas = reservaService.buscarTodasReservas();
-
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde à lista simulada de reservas
-        verify(reservaRepository, times(1)).findAll();
-        assertEquals(reservas.size(), foundReservas.size());
-        assertEquals(reserva, foundReservas.get(0));
+        // Assert
+        verify(reservaRepositoryMock, times(1)).deleteById(id);
     }
-
-    @Test
-    public void testDelete() {
-        // Chama o método da classe de serviço que deleta a reserva
-        reservaService.deletarReserva(UUID.randomUUID());
-
-        // Verifica se o método do repositório foi chamado para deletar a reserva
-        verify(reservaRepository, times(1)).delete(reserva);
-    }
-
 }

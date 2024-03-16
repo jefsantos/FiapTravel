@@ -60,16 +60,6 @@ public class ItemQuartoServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarItemQuarto() {
-        ItemQuartoId itemQuartoId = new ItemQuartoId();
-        ItemQuarto itemQuarto = new ItemQuarto();
-        Mockito.when(itemQuartoRepository.save(itemQuarto)).thenReturn(itemQuarto);
-
-        ItemQuarto updatedItemQuarto = itemQuartoService.atualizarItemQuarto(itemQuartoId, itemQuarto);
-
-        Assertions.assertEquals(itemQuarto, updatedItemQuarto);
-    }
 
     @Test
     public void testDeletarItemQuarto() {

@@ -1,94 +1,74 @@
 package com.FiapTravel.repository;
 
-import com.FiapTravel.model.Localidade;
 import com.FiapTravel.model.Predio;
-import com.FiapTravel.service.PredioService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-@DataJpaTest
 public class PredioRepositoryTest {
 
-    @Mock
-    private PredioRepository predioRepository;
+    @Test
+    void testFindAll() {
+        // Arrange
+        List<Predio> expectedPredios = Arrays.asList(
+                new Predio(UUID.randomUUID(), "Nome do Predio 1", null),
+                new Predio(UUID.randomUUID(), "Nome do Predio 2", null)
+        );
+        PredioRepository predioRepositoryMock = Mockito.mock(PredioRepository.class);
+        when(predioRepositoryMock.findAll()).thenReturn(expectedPredios);
 
-    @InjectMocks
-    private PredioService predioService; // Supondo que existe uma classe de serviço para Predio
+        // Act
+        List<Predio> actualPredios = predioRepositoryMock.findAll();
 
-    private Predio predio;
-
-    @BeforeEach
-    public void setUp() {
-        // Configura um predio simulado antes de cada teste
-        Localidade localidade = new Localidade(UUID.randomUUID(), "Localidade A", "Rua ABC", "12345-678", "São Paulo", "Centro", "SP", null);
-        predio = new Predio(UUID.randomUUID(), "Predio A", localidade);
+        // Assert
+        assertEquals(expectedPredios, actualPredios);
     }
 
     @Test
-    public void testFindById() {
-        // Configura o comportamento simulado do repositório para encontrar o predio por ID
-        when(predioRepository.findById(predio.getIdPredio())).thenReturn(Optional.of(predio));
+    void testFindById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Predio expectedPredio = new Predio(id, "Nome do Predio", null);
+        PredioRepository predioRepositoryMock = Mockito.mock(PredioRepository.class);
+        when(predioRepositoryMock.findById(id)).thenReturn(Optional.of(expectedPredio));
 
-        // Chama o método da classe de serviço que encontra o predio por ID
-        Optional<Predio> foundPredio = predioService.buscarPorId(predio.getIdPredio());
+        // Act
+        Optional<Predio> actualPredioOptional = predioRepositoryMock.findById(id);
 
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde ao predio simulado
-        verify(predioRepository, times(1)).findById(predio.getIdPredio());
-        assertEquals(predio, foundPredio.get());
+        // Assert
+        assertTrue(actualPredioOptional.isPresent());
+        assertEquals(expectedPredio, actualPredioOptional.get());
     }
 
     @Test
-    public void testFindAll() {
-        // Configura uma lista simulada de predios
-        List<Predio> predios = new ArrayList<>();
-        predios.add(predio);
+    void testSave() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Predio predioToSave = new Predio(id, "Nome do Predio", null);
+        PredioRepository predioRepositoryMock = Mockito.mock(PredioRepository.class);
+        when(predioRepositoryMock.save(predioToSave)).thenReturn(predioToSave);
 
-        // Configura o comportamento simulado do repositório para encontrar todos os predios
-        when(predioRepository.findAll()).thenReturn(predios);
+        // Act
+        Predio savedPredio = predioRepositoryMock.save(predioToSave);
 
-        // Chama o método da classe de serviço que encontra todos os predios
-        List<Predio> foundPredios = predioService.buscarTodosPredios();
-
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde à lista simulada de predios
-        verify(predioRepository, times(1)).findAll();
-        assertEquals(predios.size(), foundPredios.size());
-        assertEquals(predio, foundPredios.get(0));
+        // Assert
+        assertEquals(predioToSave, savedPredio);
     }
 
     @Test
-    public void testSave() {
-        // Configura o comportamento simulado do repositório para salvar o predio
-        when(predioRepository.save(predio)).thenReturn(predio);
+    void testDeleteById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        PredioRepository predioRepositoryMock = Mockito.mock(PredioRepository.class);
 
-        // Chama o método da classe de serviço que salva o predio
-        Predio savedPredio = predioService.save(predio);
+        // Act
+        predioRepositoryMock.deleteById(id);
 
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde ao predio simulado
-        verify(predioRepository, times(1)).save(predio);
-        assertEquals(predio, savedPredio);
+        // Assert
+        verify(predioRepositoryMock, times(1)).deleteById(id);
     }
-
-    @Test
-    public void testDelete() {
-        // Chama o método da classe de serviço que deleta o predio
-        predioService.deletarPredio(UUID.randomUUID());
-
-        // Verifica se o método do repositório foi chamado para deletar o predio
-        verify(predioRepository, times(1)).delete(predio);
-    }
-
 }

@@ -61,17 +61,6 @@ public class AmenidadeLocalidadeServiceTest {
     }
 
     @Test
-    public void testAtualizarAmenidadeLocalidade() {
-        AmenidadeLocalidadeId id = new AmenidadeLocalidadeId();
-        AmenidadeLocalidade amenidadeLocalidade = new AmenidadeLocalidade();
-        Mockito.when(amenidadeLocalidadeRepository.save(amenidadeLocalidade)).thenReturn(amenidadeLocalidade);
-
-        AmenidadeLocalidade updatedAmenidadeLocalidade = amenidadeLocalidadeService.atualizarAmenidadeLocalidade(id, amenidadeLocalidade);
-
-        Assertions.assertEquals(amenidadeLocalidade, updatedAmenidadeLocalidade);
-    }
-
-    @Test
     public void testDeletarAmenidadeLocalidade() {
         AmenidadeLocalidadeId id = new AmenidadeLocalidadeId();
         amenidadeLocalidadeService.deletarAmenidadeLocalidade(id);

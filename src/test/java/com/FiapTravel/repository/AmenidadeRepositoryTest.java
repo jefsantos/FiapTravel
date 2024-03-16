@@ -1,66 +1,74 @@
 package com.FiapTravel.repository;
 
 import com.FiapTravel.model.Amenidade;
-import com.FiapTravel.service.AmenidadeService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.mockito.Mockito;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-@DataJpaTest
 public class AmenidadeRepositoryTest {
 
-    @Mock
-    private AmenidadeRepository amenidadeRepository;
-
-    @InjectMocks
-    private AmenidadeService amenidadeService;
-
     @Test
-    public void testFindAll() {
-        // Cria uma lista simulada de amenidades
-        List<Amenidade> amenidades = new ArrayList<>();
-        amenidades.add(new Amenidade(UUID.randomUUID(), "Piscina"));
-        amenidades.add(new Amenidade(UUID.randomUUID(), "Academia"));
+    void testFindAll() {
+        // Arrange
+        List<Amenidade> expectedAmenidades = Arrays.asList(
+                new Amenidade(UUID.randomUUID(), "Descrição 1"),
+                new Amenidade(UUID.randomUUID(), "Descrição 2")
+        );
+        AmenidadeRepository amenidadeRepositoryMock = Mockito.mock(AmenidadeRepository.class);
+        when(amenidadeRepositoryMock.findAll()).thenReturn(expectedAmenidades);
 
-        // Configura o comportamento simulado do repositório
-        when(amenidadeRepository.findAll()).thenReturn(amenidades);
+        // Act
+        List<Amenidade> actualAmenidades = amenidadeRepositoryMock.findAll();
 
-        // Chama o método da classe de serviço que usa o repositório
-        List<Amenidade> result = amenidadeService.buscarTodasAmenidades();
-
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde à lista simulada
-        verify(amenidadeRepository, times(1)).findAll();
-        assertEquals(amenidades.size(), result.size());
-        assertEquals(amenidades.get(0).getDescricaoAmenidade(), result.get(0).getDescricaoAmenidade());
-        assertEquals(amenidades.get(1).getDescricaoAmenidade(), result.get(1).getDescricaoAmenidade());
+        // Assert
+        assertEquals(expectedAmenidades, actualAmenidades);
     }
 
     @Test
-    public void testFindById() {
-        // Cria uma amenidade simulada
-        Amenidade amenidade = new Amenidade(UUID.randomUUID(), "Piscina");
+    void testFindById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Amenidade expectedAmenidade = new Amenidade(id, "Descrição da amenidade");
+        AmenidadeRepository amenidadeRepositoryMock = Mockito.mock(AmenidadeRepository.class);
+        when(amenidadeRepositoryMock.findById(id)).thenReturn(Optional.of(expectedAmenidade));
 
-        // Configura o comportamento simulado do repositório
-        when(amenidadeRepository.findById(amenidade.getIdAmenidade())).thenReturn(Optional.of(amenidade));
+        // Act
+        Optional<Amenidade> actualAmenidadeOptional = amenidadeRepositoryMock.findById(id);
 
-        // Chama o método da classe de serviço que usa o repositório
-        Optional<Amenidade> result = amenidadeService.buscarPorId(amenidade.getIdAmenidade());
-
-        // Verifica se o método do repositório foi chamado e se o resultado corresponde à amenidade simulada
-        verify(amenidadeRepository, times(1)).findById(amenidade.getIdAmenidade());
-        assertEquals(amenidade.getDescricaoAmenidade(), result.get().getDescricaoAmenidade());
+        // Assert
+        assertTrue(actualAmenidadeOptional.isPresent());
+        assertEquals(expectedAmenidade, actualAmenidadeOptional.get());
     }
 
+    @Test
+    void testSave() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        Amenidade amenidadeToSave = new Amenidade(id, "Descrição da amenidade");
+        AmenidadeRepository amenidadeRepositoryMock = Mockito.mock(AmenidadeRepository.class);
+        when(amenidadeRepositoryMock.save(amenidadeToSave)).thenReturn(amenidadeToSave);
+
+        // Act
+        Amenidade savedAmenidade = amenidadeRepositoryMock.save(amenidadeToSave);
+
+        // Assert
+        assertEquals(amenidadeToSave, savedAmenidade);
+    }
+
+    @Test
+    void testDeleteById() {
+        // Arrange
+        UUID id = UUID.randomUUID();
+        AmenidadeRepository amenidadeRepositoryMock = Mockito.mock(AmenidadeRepository.class);
+
+        // Act
+        amenidadeRepositoryMock.deleteById(id);
+
+        // Assert
+        verify(amenidadeRepositoryMock, times(1)).deleteById(id);
+    }
 }

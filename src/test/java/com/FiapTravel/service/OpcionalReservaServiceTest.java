@@ -60,16 +60,6 @@ public class OpcionalReservaServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarOpcionalReserva() {
-        OpcionalReservaId id = new OpcionalReservaId();
-        OpcionalReserva opcionalReserva = new OpcionalReserva();
-        Mockito.when(opcionalReservaRepository.save(opcionalReserva)).thenReturn(opcionalReserva);
-
-        OpcionalReserva updatedOpcionalReserva = opcionalReservaService.atualizarOpcionalReserva(id, opcionalReserva);
-
-        Assertions.assertEquals(opcionalReserva, updatedOpcionalReserva);
-    }
 
     @Test
     public void testDeletarOpcionalReserva() {

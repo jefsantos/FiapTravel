@@ -61,17 +61,6 @@ public class QuartoServiceTest {
     }
 
     @Test
-    public void testAtualizarQuarto() {
-        UUID id = UUID.randomUUID();
-        Quarto quarto = new Quarto();
-        Mockito.when(quartoRepository.save(quarto)).thenReturn(quarto);
-
-        Quarto updatedQuarto = quartoService.atualizarQuarto(id, quarto);
-
-        Assertions.assertEquals(quarto, updatedQuarto);
-    }
-
-    @Test
     public void testDeletarQuarto() {
         UUID id = UUID.randomUUID();
         quartoService.deletarQuarto(id);

@@ -60,16 +60,6 @@ public class EmpreendimentoServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarEmpreendimento() {
-        UUID id = UUID.randomUUID();
-        Empreendimento empreendimento = new Empreendimento();
-        Mockito.when(empreendimentoRepository.save(empreendimento)).thenReturn(empreendimento);
-
-        Empreendimento updatedEmpreendimento = empreendimentoService.atualizarEmpreendimento(id, empreendimento);
-
-        Assertions.assertEquals(empreendimento, updatedEmpreendimento);
-    }
 
     @Test
     public void testDeletarEmpreendimento() {

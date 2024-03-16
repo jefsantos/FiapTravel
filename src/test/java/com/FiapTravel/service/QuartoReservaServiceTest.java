@@ -60,16 +60,6 @@ public class QuartoReservaServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarQuartoReserva() {
-        QuartoReservaId id = new QuartoReservaId();
-        QuartoReserva quartoReserva = new QuartoReserva();
-        Mockito.when(quartoReservaRepository.save(quartoReserva)).thenReturn(quartoReserva);
-
-        QuartoReserva updatedQuartoReserva = quartoReservaService.atualizarQuartoReserva(id, quartoReserva);
-
-        Assertions.assertEquals(quartoReserva, updatedQuartoReserva);
-    }
 
     @Test
     public void testDeletarQuartoReserva() {

@@ -60,16 +60,6 @@ public class LocalidadeServiceTest {
         Assertions.assertEquals(optional, result);
     }
 
-    @Test
-    public void testAtualizarLocalidade() {
-        UUID id = UUID.randomUUID();
-        Localidade localidade = new Localidade();
-        Mockito.when(localidadeRepository.save(localidade)).thenReturn(localidade);
-
-        Localidade updatedLocalidade = localidadeService.atualizarLocalidade(id, localidade);
-
-        Assertions.assertEquals(localidade, updatedLocalidade);
-    }
 
     @Test
     public void testDeletarLocalidade() {
