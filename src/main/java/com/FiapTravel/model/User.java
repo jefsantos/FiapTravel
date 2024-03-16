@@ -1,5 +1,7 @@
 package com.FiapTravel.model;
 
+import java.util.UUID;
+
 import com.FiapTravel.model.enums.UserRole;
 
 import jakarta.persistence.Entity;
@@ -26,7 +28,7 @@ public class User {
 	
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  private UUID id;
   private String login;
   private String password;
   private UserRole role;

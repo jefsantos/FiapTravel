@@ -1,72 +1,65 @@
 package com.FiapTravel.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.junit.jupiter.api.Test;
-
 import com.FiapTravel.model.enums.UserRole;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-class UserTest {
+import java.util.UUID;
+
+public class UserTest {
 
     @Test
-    void testAllArgsConstructor() {
-        String id = "1";
-        String login = "username";
-        String password = "password";
+    public void testConstructorAndGetters() {
+        // Arrange
+        String login = "user123";
+        String password = "password123";
         UserRole role = UserRole.ADMIN;
 
-        User user = new User(id, login, password, role);
+        // Act
+        User user = new User(login, password, role);
 
-        assertEquals(id, user.getId());
+        // Assert
+        assertNotNull(user.getId());
         assertEquals(login, user.getLogin());
         assertEquals(password, user.getPassword());
         assertEquals(role, user.getRole());
     }
 
-//    @Test
-//    void testGetAuthorities() {
-//        User adminUser = new User("1", "admin", "password", UserRole.ADMIN);
-//        User regularUser = new User("2", "user", "password", UserRole.USER);
-//
-//        Collection<? extends SimpleGrantedAuthority> adminAuthorities = (Collection<? extends SimpleGrantedAuthority>) adminUser.getAuthorities();
-//        Collection<? extends SimpleGrantedAuthority> regularAuthorities = (Collection<? extends SimpleGrantedAuthority>) regularUser.getAuthorities();
-//
-//        assertEquals(2, adminAuthorities.size());
-//        assertTrue(adminAuthorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
-//        assertTrue(adminAuthorities.contains(new SimpleGrantedAuthority("ROLE_USER")));
-//
-//        assertEquals(1, regularAuthorities.size());
-//        assertTrue(regularAuthorities.contains(new SimpleGrantedAuthority("ROLE_USER")));
-//    }
+    @Test
+    public void testToString() {
+        // Arrange
+        String login = "user123";
+        String password = "password123";
+        UserRole role = UserRole.ADMIN;
+        String expectedToString = "User(id=null, login=user123, password=password123, role=ADMIN)";
 
-//    @Test
-//    void testGetUsername() {
-//        String username = "username";
-//        User user = new User("1", username, "password", UserRole.ADMIN);
-//        assertEquals(username, user.getUsername());
-//    }
-//
-//    @Test
-//    void testIsAccountNonExpired() {
-//        User user = new User("1", "username", "password", UserRole.ADMIN);
-//        assertTrue(user.isAccountNonExpired());
-//    }
-//
-//    @Test
-//    void testIsAccountNonLocked() {
-//        User user = new User("1", "username", "password", UserRole.ADMIN);
-//        assertTrue(user.isAccountNonLocked());
-//    }
-//
-//    @Test
-//    void testIsCredentialsNonExpired() {
-//        User user = new User("1", "username", "password", UserRole.ADMIN);
-//        assertTrue(user.isCredentialsNonExpired());
-//    }
-//
-//    @Test
-//    void testIsEnabled() {
-//        User user = new User("1", "username", "password", UserRole.ADMIN);
-//        assertTrue(user.isEnabled());
-//    }
+        // Act
+        User user = new User(login, password, role);
+        String actualToString = user.toString();
+
+        // Assert
+        assertEquals(expectedToString, actualToString);
+    }
+
+    @Test
+    public void testSetterAndGetters() {
+        // Arrange
+        User user = new User();
+        UUID id = UUID.fromString("123456");
+        String login = "user123";
+        String password = "password123";
+        UserRole role = UserRole.ADMIN;
+
+        // Act
+        user.setId(id);
+        user.setLogin(login);
+        user.setPassword(password);
+        user.setRole(role);
+
+        // Assert
+        assertEquals(id, user.getId());
+        assertEquals(login, user.getLogin());
+        assertEquals(password, user.getPassword());
+        assertEquals(role, user.getRole());
+    }
 }
