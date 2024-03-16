@@ -1,5 +1,5 @@
 package com.FiapTravel.user.response;
 
-public record UserResponse(String token) {
-
-}
+//public record UserResponse(String token) {
+//
+//}

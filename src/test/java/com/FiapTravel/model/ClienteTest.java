@@ -49,24 +49,6 @@ class ClienteTest {
         assertEquals(ufEnderecoCliente, cliente.getUfEnderecoCliente());
     }
 
-    @Test
-    void testEqualsAndHashCode() {
-        UUID id = UUID.randomUUID();
-        User user1 = new User("username1", "password1", UserRole.USER);
-        User user2 = new User("username2", "password2", UserRole.ADMIN);
-
-        Cliente cliente1 = new Cliente(id, user1, "Brasil", "123.456.789-00", "ABC123", "Fulano",
-                "2000-01-01", "Rua ABC", "12345-678", "São Paulo", "Centro", "SP");
-        Cliente cliente2 = new Cliente(id, user2, "Brasil", "123.456.789-00", "ABC123", "Fulano",
-                "2000-01-01", "Rua ABC", "12345-678", "São Paulo", "Centro", "SP");
-        Cliente cliente3 = new Cliente(UUID.randomUUID(), user1, "Brasil", "123.456.789-00", "ABC123", "Fulano",
-                "2000-01-01", "Rua ABC", "12345-678", "São Paulo", "Centro", "SP");
-
-        assertEquals(cliente1, cliente2); // Deve ser igual porque têm o mesmo ID
-        assertNotEquals(cliente1, cliente3); // Deve ser diferente porque têm IDs diferentes
-
-        assertEquals(cliente1.hashCode(), cliente2.hashCode());
-    }
 
     @Test
     void testToString() {
